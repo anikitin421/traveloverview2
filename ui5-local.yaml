@@ -1,0 +1,40 @@
+specVersion: "2.4"
+metadata:
+  name: traveloverview2
+type: application
+framework:
+  name: SAPUI5
+  version: 1.97.0
+  libraries:
+    - name: sap.m
+    - name: sap.f
+    - name: sap.ushell
+    - name: sap.ui.core
+    - name: sap.ui.layout
+    - name: sap.ui.generic.app
+    - name: sap.ui.comp
+    - name: sap.suite.ui.generic.template
+    - name: sap.ovp
+    - name: sap.ui.rta
+    - name: themelib_sap_fiori_3
+server:
+  customMiddleware:
+    - name: fiori-tools-proxy
+      afterMiddleware: compression
+      configuration:
+        ignoreCertError: false
+        backend:
+          - path: /sap
+            url: https://44fbbf39-44b5-48cb-9800-cbb9cbadbedf.abap.us10.hana.ondemand.com
+            scp: true
+            destination: abap-cloud-default_abap-af6ab6fctrial-dev
+    - name: fiori-tools-appreload
+      afterMiddleware: compression
+      configuration:
+        port: 35729
+        path: webapp
+        delay: 300
+    - name: fiori-tools-preview
+      afterMiddleware: fiori-tools-appreload
+      configuration:
+        component: sap.fe.demo.traveloverview2
